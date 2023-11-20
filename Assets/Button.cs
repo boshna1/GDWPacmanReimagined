@@ -4,20 +4,22 @@ using UnityEngine;
 
 public class Button : MonoBehaviour
 {
-    Transform Exit;
-    int ButtonPress;
-    private void Update()
+    public Transform Exit;
+    public Exit exit;
+    bool buttonPressed;
+
+    private void Start()
     {
-        if (ButtonPress >= 3)
-        {
-            Exit.GetComponent<BoxCollider2D>().isTrigger = true;
-        }
+        buttonPressed = false;
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.tag == "Pacman")
+        if (collision.transform.tag == "Ghost" && buttonPressed == false)
         {
-            ButtonPress++;
+            exit.addButtonPress();
+            this.transform.GetComponent<SpriteRenderer>().color = Color.green;
+            buttonPressed = true;
+            Debug.Log("press");
         }
     }
 }

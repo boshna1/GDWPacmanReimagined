@@ -11,15 +11,19 @@ public class PlayerMovement : MonoBehaviour
     Vector2 Ghost2direction;
     public float speed;
     string currentGhost;
+    bool PlayGame;
     // Start is called before the first frame update
     void Start()
     {
         tempdirection = Vector2.zero;
+        PlayGame = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (PlayGame) 
+        { 
         Ghost1.transform.Translate(Ghost1direction);
         Ghost2.transform.Translate(Ghost2direction);
         if (Input.GetKeyDown(KeyCode.W))
@@ -56,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
             Ghost2direction = Vector2.zero;
             Ghost2direction = tempdirection;
         }
+        }
     }
 
     void switchGhost1()
@@ -67,5 +72,16 @@ public class PlayerMovement : MonoBehaviour
     {
         tempdirection = Vector2.zero;
         currentGhost = "Blue";
+    }
+
+    public void setGameFalse()
+    {
+        PlayGame = false; ;
+    }
+
+    public void All0()
+    {
+        Ghost1direction = Vector2.zero;
+        Ghost2direction = Vector2.zero;
     }
 }
