@@ -12,6 +12,10 @@ public class PlayerMovement : MonoBehaviour
     public float speed;
     string currentGhost;
     bool PlayGame;
+    public Pacman pacman;
+    public Sprite[] Ghost1Sprites = new Sprite[4];
+    public Sprite[] Ghost2Sprites = new Sprite[4];
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +27,8 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         if (PlayGame) 
-        { 
+        {
+            ChangeSprite();
         Ghost1.transform.Translate(Ghost1direction);
         Ghost2.transform.Translate(Ghost2direction);
         if (Input.GetKeyDown(KeyCode.W))
@@ -52,14 +57,13 @@ public class PlayerMovement : MonoBehaviour
         }
         if (currentGhost == "Red")
         {
-            Ghost1direction = Vector2.zero;
             Ghost1direction = tempdirection;
         }
         if (currentGhost == "Blue")
         {
-            Ghost2direction = Vector2.zero;
             Ghost2direction = tempdirection;
         }
+            
         }
     }
 
@@ -83,5 +87,43 @@ public class PlayerMovement : MonoBehaviour
     {
         Ghost1direction = Vector2.zero;
         Ghost2direction = Vector2.zero;
+        pacman.disabePacman();
+    }
+
+    void ChangeSprite()
+    {
+        if (Input.GetKeyDown(KeyCode.W) && currentGhost == "Red")
+        {
+            Ghost1.GetComponent<SpriteRenderer>().sprite = Ghost1Sprites[3];
+        }
+        if (Input.GetKeyDown(KeyCode.A) && currentGhost == "Red")
+        {
+            Ghost1.GetComponent<SpriteRenderer>().sprite = Ghost1Sprites[0];
+        }
+        if (Input.GetKeyDown(KeyCode.S) && currentGhost == "Red")
+        {
+            Ghost1.GetComponent<SpriteRenderer>().sprite = Ghost1Sprites[2];
+        }
+        if (Input.GetKeyDown(KeyCode.D) && currentGhost == "Red")
+        {
+            Ghost1.GetComponent<SpriteRenderer>().sprite = Ghost1Sprites[1];
+        }
+
+        if (Input.GetKeyDown(KeyCode.W) && currentGhost == "Blue")
+        {
+            Ghost2.GetComponent<SpriteRenderer>().sprite = Ghost2Sprites[3];
+        }
+        if (Input.GetKeyDown(KeyCode.A) && currentGhost == "Blue")
+        {
+            Ghost2.GetComponent<SpriteRenderer>().sprite = Ghost2Sprites[0];
+        }
+        if (Input.GetKeyDown(KeyCode.S) && currentGhost == "Blue")
+        {
+            Ghost2.GetComponent<SpriteRenderer>().sprite = Ghost2Sprites[2];
+        }
+        if (Input.GetKeyDown(KeyCode.D) && currentGhost == "Blue")
+        {
+            Ghost2.GetComponent<SpriteRenderer>().sprite = Ghost2Sprites[1];
+        }
     }
 }

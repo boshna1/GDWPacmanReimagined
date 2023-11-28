@@ -9,6 +9,7 @@ public class Exit : MonoBehaviour
     [SerializeField] private Text text;
     public PlayerMovement playerMovement;
     int buttonPress;
+    public Pacman pacman;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +23,7 @@ public class Exit : MonoBehaviour
         {
             this.transform.GetComponent<SpriteRenderer>().color = Color.yellow;
             this.transform.GetComponent<BoxCollider2D>().isTrigger = true;
+            pacman.GoalOpen();
         }
         if (Loss)
         {
@@ -38,7 +40,7 @@ public class Exit : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Ghost")
+        if (collision.gameObject.tag == "Pacman")
         {
             setPacWin();
         }
