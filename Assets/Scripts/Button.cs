@@ -6,8 +6,10 @@ public class Button : MonoBehaviour
 {
     public Transform Exit;
     public Exit exit;
+    public Exit exit2;
     bool buttonPressed;
     public Pacman pacman;
+    public Sprite ButtonPressed;
 
     private void Start()
     {
@@ -18,9 +20,10 @@ public class Button : MonoBehaviour
         if (collision.transform.tag == "Pacman" && buttonPressed == false)
         {
             exit.addButtonPress();
-            this.transform.GetComponent<SpriteRenderer>().color = Color.green;
+            exit2.addButtonPress();
+            this.transform.GetComponent<SpriteRenderer>().sprite = ButtonPressed;
+            this.GetComponent<AudioSource>().enabled = true;
             buttonPressed = true;
-            Debug.Log("press");
             string button = transform.tag.ToString();
             pacman.SetNewButtonTarget(button);
         }

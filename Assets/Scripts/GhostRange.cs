@@ -7,20 +7,18 @@ public class GhostRange : MonoBehaviour
     public Pacman pacman;
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.name == "Pacman")
+        if (collision.transform.tag == "Pacman")
         {
-            pacman.InGhostRange(true,this.transform);
-            Debug.Log("Pacman enter");
+            pacman.InGhostRange( this.transform, 1);
         }
     }
 
     public void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.name == "Pacman")
+        if (collision.transform.tag == "Pacman")
         {
-            pacman.InGhostRange(false,this.transform);
+            pacman.InGhostRange( this.transform, -1);
             pacman.setNewButtonTarget();
-            Debug.Log("Pacman Exit");
         }
     }
 

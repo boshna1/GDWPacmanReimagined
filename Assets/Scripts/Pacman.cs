@@ -14,14 +14,25 @@ public class Pacman : MonoBehaviour
     bool SetNewTarget;
     bool GoalOpened;
     public Transform Goal;
+    public Transform Goal2;
+    bool isOneGhostRange;
+    bool isTwoGhostRange;
+    public Transform OneGhostRange;
+    public Transform Ghost1;
+    public Transform Ghost2;
+    public int GhostCountInRange;
     bool GhostInRange;
-    public Transform Ghost;
-    Vector2 GoalOffset;
+    Vector2 Offset;
     public Transform pacman;
+    bool pacmanChooseGoal = false;
+    public GameObject destination;
+    public Sprite[] PacmanSprites = new Sprite[4];
+    Vector2 DestinationVec;
+
 
     private void Start()
     {
-        for (int i = 0; i < buttons.Length; i++) 
+        for (int i = 0; i < buttons.Length; i++)
         {
             enabledbuttons[i] = 0;
         }
@@ -32,46 +43,122 @@ public class Pacman : MonoBehaviour
     }
     // Update is called once per frame
     void Update()
-    { 
-        if (SetNewTarget == true)
+    {
+        if (SetNewTarget == true && GoalOpened == false)
         {
             TargetButton = Random.Range(0, 4);
-                if (enabledbuttons[TargetButton] == 1)
-                {
-                    TargetButton = Random.Range(0, 4);
-                    Debug.Log(TargetButton);
-                }
+            while (enabledbuttons[TargetButton] == 1)
+            {
+                TargetButton = Random.Range(0, 4);
+            }
             SetNewTarget = false;
+            DestinationVec = buttons[TargetButton].transform.position;
         }
-        if (GoalOpened == false && GhostInRange == false) 
+        if (GhostCountInRange == 1)
         {
-            agent.SetDestination(buttons[TargetButton].transform.position);
+            isOneGhostRange = true;
+            GhostInRange = true;
         }
-        if (GoalOpened == true && GhostInRange == false)
+        if (GhostCountInRange == 2)
         {
-            agent.SetDestination(Goal.position);
+            isTwoGhostRange = true;
+            isOneGhostRange = false;
+            GhostInRange = true;
         }
-        if (GoalOpened == true && GhostInRange == true)
+        if (GhostCountInRange == 0)
         {
-            int random = Random.Range(0,1);
-            if (random == 0)
+            isTwoGhostRange = false;
+            isOneGhostRange = false;
+            GhostInRange = false;
+        }
+           
+        if (GoalOpened == true && GhostInRange == false && pacmanChooseGoal == false)
+        {
+            if ((Goal.transform.position - this.transform.position).magnitude > (Goal2.transform.position - this.transform.position).magnitude)
             {
-                GoalOffset = new Vector2(0,3);
+                Debug.Log("Goal2 set");
+                DestinationVec = (Goal2.transform.position);
             }
-            if (random == 1)
+            else
             {
-                GoalOffset = new Vector2(0, -3);
+                Debug.Log("Goal1 set");
+                DestinationVec = (Goal.transform.position);
             }
-            agent.SetDestination((Vector2)Goal.position + GoalOffset);
+            pacmanChooseGoal = true;
+            agent.SetDestination(DestinationVec + Offset);
         }
-        if (GhostInRange == true)
+        if (GhostInRange == true && GoalOpened == true) 
         {
-            Vector2 tempVector = ((new Vector2(transform.position.x - Ghost.position.x,transform.position.y - Ghost.position.y) * 3) + new Vector2(transform.position.x,transform.position.y));
-            Debug.Log(tempVector);
-            agent.SetDestination(tempVector ); // add offset depending on quadrant
+            pacmanChooseGoal = false;
+        }
+        if (GhostInRange == true && GoalOpened == false)
+        {
+            if (isOneGhostRange)
+            {
+                DestinationVec = (Vector2)(pacman.transform.position - OneGhostRange.transform.position) * 2f + (Vector2)transform.position;
+            }
+            if (isTwoGhostRange)
+            {
+                DestinationVec = (Vector2)(pacman.transform.position - Ghost1.transform.position + Ghost2.transform.position) * 2f + (Vector2)transform.position;
+            }
+            if (DestinationVec.x < -13 && DestinationVec.y > -16 && DestinationVec.y < 0)
+            {
+                Offset = new Vector2(0, 1);
+            }
+            if (DestinationVec.x < -13 && DestinationVec.y < -16)
+            {
+                Offset = new Vector2(1, 0);
+            }
+            if (DestinationVec.x > 13 && DestinationVec.y > -16 && DestinationVec.y < 0)
+            {
+                Offset = new Vector2(0, 1);
+            }
+            if (DestinationVec.x > 13 && DestinationVec.y < -16)
+            {
+                Offset = new Vector2(-1, 0);
+            }
+
+            if (DestinationVec.x < -13 && DestinationVec.y > 16 && DestinationVec.y > 0)
+            {
+                Offset = new Vector2(0, 1);
+            }
+            if (DestinationVec.x < -13 && DestinationVec.y > 16)
+            {
+                Offset = new Vector2(1, 0);
+            }
+            if (DestinationVec.x > 13 && DestinationVec.y < 16 && DestinationVec.y > 0)
+            {
+                Offset = new Vector2(0, 1);
+            }
+            if (DestinationVec.x > 13 && DestinationVec.y > 16)
+            {
+                Offset = new Vector2(-1, 0);
+            }
+            else
+            {
+                Offset = new Vector2(0, 0);
+            }
         }
         
-        
+        if (destination.transform.position.x - pacman.transform.position.x > 0 && (destination.transform.position.y - pacman.transform.position.y > 1 || destination.transform.position.y - pacman.transform.position.y < 1))
+        {
+            pacman.GetComponent<SpriteRenderer>().sprite = PacmanSprites[0];
+        }
+        if (destination.transform.position.x - pacman.transform.position.x < 0 && (destination.transform.position.y - pacman.transform.position.y > 1 || destination.transform.position.y - pacman.transform.position.y < 1))
+        {
+            pacman.GetComponent<SpriteRenderer>().sprite = PacmanSprites[1];
+        }
+        if (destination.transform.position.x - pacman.transform.position.y > 0 && (destination.transform.position.x - pacman.transform.position.x < 1 || destination.transform.position.x - pacman.transform.position.x < -1))
+        {
+            pacman.GetComponent<SpriteRenderer>().sprite = PacmanSprites[2];
+        }
+        if (destination.transform.position.x - pacman.transform.position.y < 0 && (destination.transform.position.x - pacman.transform.position.x < 1 || destination.transform.position.x - pacman.transform.position.x < -1))
+        {
+            pacman.GetComponent<SpriteRenderer>().sprite = PacmanSprites[3];
+        }
+        destination.transform.position = DestinationVec;
+        agent.SetDestination(DestinationVec + Offset);
+        Debug.Log(DestinationVec);
     }
 
     public void SetNewButtonTarget(string button)
@@ -80,18 +167,22 @@ public class Pacman : MonoBehaviour
         if (button == "Button1")
         {
             enabledbuttons[0] = 1;
+            Debug.Log("button1 disabled");
         }
         if (button == "Button2")
         {
             enabledbuttons[1] = 1;
+            Debug.Log("button2 disabled");
         }
         if (button == "Button3")
         {
             enabledbuttons[2] = 1;
+            Debug.Log("button3 disabled");
         }
         if (button == "Button4")
         {
             enabledbuttons[3] = 1;
+            Debug.Log("button4 disabled");
         }
     }
 
@@ -100,11 +191,12 @@ public class Pacman : MonoBehaviour
         GoalOpened = true;
     }
 
-    public void InGhostRange(bool input, Transform GhostTrans)
+    public void InGhostRange(Transform GhostTrans, int Ghosts)
     {
-        GhostInRange = input;
-        Ghost = GhostTrans;
+        OneGhostRange = GhostTrans;
+        GhostCountInRange += Ghosts;
     }
+
 
     public void setNewButtonTarget()
     {

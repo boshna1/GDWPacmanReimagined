@@ -10,6 +10,8 @@ public class Exit : MonoBehaviour
     public PlayerMovement playerMovement;
     int buttonPress;
     public Pacman pacman;
+    public AudioClip Lose;
+    public GameObject floor;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,14 +25,19 @@ public class Exit : MonoBehaviour
         {
             this.transform.GetComponent<SpriteRenderer>().color = Color.yellow;
             this.transform.GetComponent<BoxCollider2D>().isTrigger = true;
+            this.GetComponent<AudioSource>().enabled = true;
+            
             pacman.GoalOpen();
         }
         if (Loss)
         {
+            floor.GetComponent<AudioSource>().enabled = true;
+            Instantiate(Lose);         
             text.text = "Pacman Escaped!";
             playerMovement.All0();
             playerMovement.setGameFalse();
         }
+
     }
 
     void setPacWin()

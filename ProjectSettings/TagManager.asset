@@ -10,6 +10,8 @@ TagManager:
   - Button2
   - Button3
   - Button4
+  - Ghost1
+  - Ghost2
   layers:
   - Default
   - TransparentFX
