@@ -80,7 +80,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void setGameFalse()
     {
-        PlayGame = false; ;
+        PlayGame = false;
+        
     }
 
     public void All0()
@@ -125,5 +126,15 @@ public class PlayerMovement : MonoBehaviour
         {
             Ghost2.GetComponent<SpriteRenderer>().sprite = Ghost2Sprites[1];
         }
+    }
+
+    public void ResetGame()
+    {
+        PlayGame = true;
+        Ghost1.GetComponent<SpriteRenderer>().sprite = Ghost1Sprites[2];
+        Ghost2.GetComponent<SpriteRenderer>().sprite = Ghost2Sprites[2];
+        tempdirection = Vector2.zero;
+        Ghost1.transform.position = new Vector2(-3.009f, 0);
+        Ghost2.transform.position = new Vector2(-1.009f, 0);
     }
 }

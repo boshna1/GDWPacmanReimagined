@@ -10,6 +10,8 @@ public class Button : MonoBehaviour
     bool buttonPressed;
     public Pacman pacman;
     public Sprite ButtonPressed;
+    public Sprite ButtonUnpressed;
+    public Score score;
 
     private void Start()
     {
@@ -22,11 +24,16 @@ public class Button : MonoBehaviour
             exit.addButtonPress();
             exit2.addButtonPress();
             this.transform.GetComponent<SpriteRenderer>().sprite = ButtonPressed;
-            this.GetComponent<AudioSource>().enabled = true;
             buttonPressed = true;
             string button = transform.tag.ToString();
             pacman.SetNewButtonTarget(button);
+            score.ButtonPressed();
         }
+    }
+
+    public void GameReset()
+    {
+        buttonPressed = false;
     }
 
 }
