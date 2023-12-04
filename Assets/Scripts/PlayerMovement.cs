@@ -1,6 +1,7 @@
 
 
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -9,23 +10,30 @@ public class PlayerMovement : MonoBehaviour
     Vector2 tempdirection;
     Vector2 Ghost1direction;
     Vector2 Ghost2direction;
-    public float speed;
+    public float speed = 0.13f;
     string currentGhost;
     bool PlayGame;
     public Pacman pacman;
     public Sprite[] Ghost1Sprites = new Sprite[4];
     public Sprite[] Ghost2Sprites = new Sprite[4];
+    public Text text;
 
     // Start is called before the first frame update
     void Start()
     {
         tempdirection = Vector2.zero;
-        PlayGame = true;
+        PlayGame = false;
+        text.text = "Press Mouse 1 to Start";
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetMouseButton(0)) 
+        {
+            PlayGame = true;
+            text.text = "";
+        }
         if (PlayGame) 
         {
             ChangeSprite();

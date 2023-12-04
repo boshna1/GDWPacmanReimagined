@@ -27,7 +27,10 @@ public class Tutorial : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+          StartCoroutine (Skip());
+        }
     }
 
     IEnumerator PlayTutorial()
@@ -70,6 +73,15 @@ public class Tutorial : MonoBehaviour
 
         yield return new WaitForSeconds(2.5f);
 
+        transition.SetTrigger("Start");
+
+        yield return new WaitForSeconds(1.5f);
+
+        SceneManager.LoadScene("MainGame");
+    }
+
+    IEnumerator Skip()
+    {
         transition.SetTrigger("Start");
 
         yield return new WaitForSeconds(1.5f);

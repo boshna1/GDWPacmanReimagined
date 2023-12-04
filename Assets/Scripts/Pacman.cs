@@ -34,7 +34,7 @@ public class Pacman : MonoBehaviour
         {
             enabledbuttons[i] = 0;
         }
-        Game = true;
+        Game = false;
         GoalOpened = false;
         TargetButton = Random.Range(0, 4);
         agent.updateRotation = false;
@@ -43,6 +43,10 @@ public class Pacman : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetMouseButton(0))
+        {
+            Game = true;
+        }
         if (Game)
         {
             if (SetNewTarget == true && GoalOpened == false)

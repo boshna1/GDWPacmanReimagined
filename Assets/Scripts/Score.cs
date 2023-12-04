@@ -6,7 +6,7 @@ public class Score : MonoBehaviour
 {
     int score = 50000;
     int HighScore;
-    bool GamePlay = true;
+    bool GamePlay = false;
     public Text scoretext;
     public Text HighscoreValue;
 
@@ -19,6 +19,10 @@ public class Score : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetMouseButton(0))
+        {
+            GamePlay = true;
+        }
         if (GamePlay == true)
         {
             scoretext.text = score.ToString();
