@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Build.Player;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +8,8 @@ public class Score : MonoBehaviour
     int HighScore;
     bool GamePlay = true;
     public Text scoretext;
+    public Text HighscoreValue;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,12 +24,13 @@ public class Score : MonoBehaviour
             scoretext.text = score.ToString();
             score--;
         }
-        scoretext.text = score.ToString();
+        scoretext.text = "Score:  " + score.ToString();
         if (GamePlay == false)
         {
             if (HighScore < score)
             {
                 HighScore = score;
+                HighscoreValue.text = HighScore.ToString();
             }
         }
     }

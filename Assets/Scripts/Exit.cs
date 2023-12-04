@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
+
 
 public class Exit : MonoBehaviour
 {
@@ -20,6 +19,8 @@ public class Exit : MonoBehaviour
     GameObject tempGameOverSound;
     public GameObject ButtonPressSound;
     bool playsound;
+    bool playsoundGoal;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -34,18 +35,23 @@ public class Exit : MonoBehaviour
         {
             this.transform.GetComponent<SpriteRenderer>().color = Color.yellow;
             this.transform.GetComponent<BoxCollider2D>().isTrigger = true;
-            Instantiate(GoalOpenSound);
+            if (playsoundGoal == false)
+            {
+                Instantiate(GoalOpenSound);
+                playsoundGoal = true;
+            }
             pacman.GoalOpen();
         }
         if (Loss)
         {
             Instantiate(Lose);         
-            text.text = "Pacman Escaped!";
+            text.text = "Adventurer Escaped!";
             playerMovement.All0();
             playerMovement.setGameFalse();
             ui.enableLoseScreen();
             score.setGameFalse();
             Loss = false;
+
             if (playsound == false) 
             {
                 tempGameOverSound = Instantiate(GameOverSound);
@@ -78,10 +84,9 @@ public class Exit : MonoBehaviour
     {
         buttonPress = 0;
         text.text = "";
-        this.transform.GetComponent<SpriteRenderer>().color = Color.white;
+        this.transform.GetComponent<SpriteRenderer>().color = Color.gray;
         this.transform.GetComponent<BoxCollider2D>().isTrigger = false;
         this.GetComponent<AudioSource>().enabled = false;
         Loss = false;
-        tempGameOverSound.GetComponent<AudioSource>().enabled = false;
     }
 }

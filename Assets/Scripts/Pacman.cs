@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.AI;
-using UnityEditor.Experimental.GraphView;
 
 public class Pacman : MonoBehaviour
 {
@@ -99,51 +96,48 @@ public class Pacman : MonoBehaviour
             {
                 if (isOneGhostRange)
                 {
-                    DestinationVec = (Vector2)(pacman.transform.position - OneGhostRange.transform.position) * 1.5f + (Vector2)transform.position;
+                    DestinationVec = (Vector2)(pacman.transform.position - OneGhostRange.transform.position) * 1.5f + (Vector2)transform.position + new Vector2(0,1);
                 }
                 if (isTwoGhostRange)
                 {
                     DestinationVec = (Vector2)(pacman.transform.position - Ghost1.transform.position + Ghost2.transform.position) * 1.5f + (Vector2)transform.position;
                 }
-                if (DestinationVec.x < -13 && DestinationVec.y > -16 && DestinationVec.y < 0)
+                if (DestinationVec.x < -13 && DestinationVec.y < -16 && DestinationVec.y < 0 && isOneGhostRange)
                 {
                     Offset = new Vector2(0, 2);
                 }
-                if (DestinationVec.x < -13 && DestinationVec.y < -16)
+                if (DestinationVec.x < -13 && DestinationVec.y < -16 && isOneGhostRange)
                 {
                     Offset = new Vector2(2, 0);
                 }
-                if (DestinationVec.x > 13 && DestinationVec.y > -16 && DestinationVec.y < 0)
+                if (DestinationVec.x > 13 && DestinationVec.y > -16 && DestinationVec.y < 0 && isOneGhostRange)
                 {
                     Offset = new Vector2(0, 2);
                 }
-                if (DestinationVec.x > 13 && DestinationVec.y < -16)
+                if (DestinationVec.x > 13 && DestinationVec.y < -16 && isOneGhostRange)
                 {
                     Offset = new Vector2(-2, 0);
                 }
 
-                if (DestinationVec.x < -13 && DestinationVec.y > 16 && DestinationVec.y > 0)
+                if (DestinationVec.x < -13 && DestinationVec.y > 16 && DestinationVec.y > 0 && isOneGhostRange)
                 {
                     Offset = new Vector2(0, 2);
                 }
-                if (DestinationVec.x < -13 && DestinationVec.y > 16)
+                if (DestinationVec.x < -13 && DestinationVec.y > 16 && isOneGhostRange)
                 {
                     Offset = new Vector2(2, 0);
                 }
-                if (DestinationVec.x > 13 && DestinationVec.y < 16 && DestinationVec.y > 0)
+                if (DestinationVec.x > 13 && DestinationVec.y < 16 && DestinationVec.y > 0 && isOneGhostRange)
                 {
                     Offset = new Vector2(0, 2);
                 }
-                if (DestinationVec.x > 13 && DestinationVec.y > 16)
+                if (DestinationVec.x > 13 && DestinationVec.y > 16 && isOneGhostRange)
                 {
                     Offset = new Vector2(-2, 0);
                 }
-                else
-                {
-                    Offset = new Vector2(0, 0);
-                }
                 destination.transform.position = DestinationVec;
                 agent.SetDestination(DestinationVec + Offset);
+                
             }
 
             if (destination.transform.position.x - pacman.transform.position.x > 0 && (destination.transform.position.y - pacman.transform.position.y > 1 || destination.transform.position.y - pacman.transform.position.y < 1))
@@ -164,7 +158,7 @@ public class Pacman : MonoBehaviour
             }
             destination.transform.position = DestinationVec;
             agent.SetDestination(DestinationVec + Offset);
-            Debug.Log(DestinationVec);
+            Debug.Log(Offset);
         }
     }
 

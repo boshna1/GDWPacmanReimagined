@@ -12,6 +12,7 @@ public class Button : MonoBehaviour
     public Sprite ButtonPressed;
     public Sprite ButtonUnpressed;
     public Score score;
+    public UI ui;
 
     private void Start()
     {
@@ -28,6 +29,7 @@ public class Button : MonoBehaviour
             string button = transform.tag.ToString();
             pacman.SetNewButtonTarget(button);
             score.ButtonPressed();
+            ui.addButton();
         }
     }
 
