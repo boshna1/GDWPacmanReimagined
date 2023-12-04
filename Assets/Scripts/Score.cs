@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Score : MonoBehaviour
 {
-    int score = 50000;
+    int score = 0;
     int HighScore;
     bool GamePlay = false;
     public Text scoretext;
@@ -22,6 +22,7 @@ public class Score : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             GamePlay = true;
+            score = 50000;
         }
         if (GamePlay == true)
         {
